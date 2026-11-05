@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b101b">
+<title>Útěk z bludiště</title>
+<style>
+:root{color-scheme:dark;--bg:#0b101b;--panel:#121b2b;--muted:#98a8bf;--lime:#c5f767;--cyan:#65dced}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 20%,#18283b 0, var(--bg) 65%);color:#edf3ff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}button{font:inherit;cursor:pointer}button:focus-visible,.board:focus-visible{outline:3px solid var(--cyan);outline-offset:5px}header{max-width:1120px;margin:auto;padding:25px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff10}.brand{font-weight:750;display:flex;align-items:center;gap:12px}.brand-icon{color:var(--lime);font-size:26px}.tag{font-size:12px;color:var(--muted);letter-spacing:2px}main{max-width:1080px;margin:40px auto;padding:0 28px;display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:start}h1{font-size:clamp(32px,5vw,48px);line-height:1.08;letter-spacing:-2px;margin:10px 0 12px}h1 span{color:var(--lime)}.eyebrow{font-size:11px;color:var(--cyan);letter-spacing:2px;font-weight:750}.intro{color:var(--muted);margin:0 0 24px;font-size:15px;line-height:1.6}.board-frame{padding:14px;background:#152034;border:1px solid #344257;border-radius:20px;box-shadow:0 25px 65px #0005}.board{aspect-ratio:1;position:relative;display:grid;grid-template-columns:repeat(15,minmax(0,1fr));grid-template-rows:repeat(15,minmax(0,1fr));background:#091220;border-radius:8px;overflow:hidden;touch-action:manipulation}.cell{position:relative;min-width:0;min-height:0}.wall{background:#293b53;border:1px solid #334760;box-shadow:inset 0 2px 0 #ffffff07}.start:after{content:"";position:absolute;inset:25%;border:1px solid #65dced66;border-radius:50%}.goal{display:grid;place-items:center;color:var(--lime);background:#c5f76710}.goal:after{content:"⚑";font-size:clamp(15px,3vw,27px);filter:drop-shadow(0 0 5px #c5f76766)}.player{position:absolute;width:6.666667%;height:6.666667%;top:0;left:0;display:grid;place-items:center;pointer-events:none;z-index:2}.character{width:66%;height:73%;background:var(--cyan);border-radius:38% 38% 25% 25%;position:relative;box-shadow:0 0 18px #65dced55,inset 0 -4px 0 #32a9ba}.character:before,.character:after{content:"";position:absolute;width:13%;height:20%;top:32%;background:#0b2230;border-radius:3px}.character:before{left:25%}.character:after{right:25%}.board.bump{animation:bump 140ms ease}@keyframes bump{50%{box-shadow:inset 0 0 20px #ff8c7355}}.legend{display:flex;justify-content:center;gap:24px;padding:16px 0 0;font-size:12px;color:var(--muted)}.dot{width:9px;height:9px;display:inline-block;margin-right:7px;border-radius:3px}.side{padding-top:38px}.stats{border:1px solid #ffffff13;background:#111c2c;border-radius:18px;overflow:hidden}.stat{padding:20px 24px}.stat+.stat{border-top:1px solid #ffffff0e}.label{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted)}.value{font-size:40px;line-height:1.3;font-weight:700;font-variant-numeric:tabular-nums;margin-top:8px}.value small{font-size:14px;color:var(--muted);font-weight:400}.status{color:var(--lime);font-size:13px;min-height:38px;display:flex;align-items:center;margin:14px 4px}.actions{display:grid;gap:10px}.btn{border:1px solid #ffffff20;border-radius:12px;padding:14px 18px;color:#eef3fb;background:#1c293c;font-weight:650;transition:background .15s,transform .15s}.btn:hover{background:#293b53;transform:translateY(-1px)}.primary{background:var(--lime);border-color:var(--lime);color:#16220b}.primary:hover{background:#d5ff86}.help{margin-top:28px;padding-top:24px;border-top:1px solid #ffffff13}.help h2{font-size:14px;margin:0 0 12px}.help p{color:var(--muted);font-size:13px;line-height:1.7;margin:10px 0}.keys{display:flex;gap:5px;align-items:center}kbd{display:inline-grid;place-items:center;min-width:28px;height:29px;border:1px solid #465269;border-bottom-width:3px;border-radius:6px;font:12px system-ui;background:#182335}.or{font-size:12px;color:var(--muted);margin:0 6px}.pad{display:grid;grid-template-columns:repeat(3,42px);gap:5px;justify-content:center;margin-top:20px}.pad button{height:38px;padding:0}.pad .up{grid-column:2}.pad .left{grid-column:1}.foot{font-size:11px;color:#71819a;margin:18px 0;text-align:center}.modal{position:fixed;inset:0;background:#050a13bb;backdrop-filter:blur(8px);z-index:10;display:grid;place-items:center;padding:20px}.modal[hidden]{display:none}.victory{max-width:420px;width:100%;padding:34px;background:#142035;border:1px solid #c5f76755;border-radius:24px;text-align:center;box-shadow:0 30px 100px #0007}.win-icon{font-size:42px;color:var(--lime)}.victory h2{font-size:30px;margin:12px 0}.victory p{color:var(--muted);line-height:1.6}.results{display:flex;justify-content:center;gap:35px;margin:24px 0}.results strong{display:block;font-size:26px;font-variant-numeric:tabular-nums}.results span{color:var(--muted);font-size:12px}.victory .actions{margin-top:24px}@media(max-width:780px){header{padding:18px 20px}.tag{display:none}main{grid-template-columns:1fr;gap:20px;margin:24px auto;padding:0 18px;max-width:590px}.side{padding-top:0}.stats{display:grid;grid-template-columns:1fr 1fr}.stat{padding:14px 20px}.stat+.stat{border-top:0;border-left:1px solid #ffffff0e}.value{font-size:30px}.help{margin-top:20px}.actions{grid-template-columns:1fr 1fr}.victory .actions{grid-template-columns:1fr}.board-frame{padding:10px}.legend{gap:18px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Equal grid tracks and actual cell coordinates prevent cumulative player drift. */
+.checkpoint{display:grid;place-items:center;background:#bb92ff16;color:#c6a5ff;font-weight:800;font-size:clamp(12px,2vw,20px)}
+.checkpoint::after{content:"?"}.checkpoint.solved{color:var(--lime);background:#c5f7670c}.checkpoint.solved::after{content:"✓"}
+.player.stepping .character{animation:step 110ms ease}@keyframes step{50%{scale:.88}}
+.learning{margin-top:18px;background:#111c2c;border:1px solid #ffffff13;border-radius:14px;padding:16px}
+.learning label{display:block;font-size:13px;font-weight:650;margin-bottom:8px}.learning select{width:100%;border:1px solid #465269;border-radius:8px;background:#182335;color:#edf3ff;font:inherit;font-size:13px;padding:10px}.learning select:focus-visible{outline:3px solid var(--cyan)}
+.progress{font-size:14px;color:#c6a5ff;margin:12px 0 0}.learning-note{font-size:12px;color:var(--muted);line-height:1.6;margin:8px 0 0}
+.question-expression{font-size:38px;font-weight:750;margin:24px 0}.choices{display:flex;gap:12px}.choices button{flex:1;font-size:24px;padding:12px}.choices button:disabled{cursor:default;opacity:.5}.choices button.correct{background:var(--lime);color:#16220b;opacity:1}.choices button.incorrect{border-color:#ffab92;color:#ffab92}
+.feedback{font-size:14px;min-height:50px;line-height:1.6;color:var(--muted);margin:18px 0}.feedback.good{color:var(--lime)}
+.victory button[hidden]{display:none}
+</style>
+</head>
+<body>
+<header><div class="brand"><span class="brand-icon" aria-hidden="true">▦</span> ÚTĚK Z BLUDIŠTĚ</div><span class="tag">MALÁ HRA. VELKÁ VÝZVA.</span></header>
+<main>
+<section aria-label="Herní plocha"><div class="eyebrow">MATEMATICKÁ VÝPRAVA</div><h1>Najdi cestu.<br><span>Zapoj hlavu.</span></h1><p class="intro">Vyřeš pět příkladů na cestě a dostaň se k zelené vlajce.</p><div class="board-frame"><div id="board" class="board" tabindex="0" role="group" aria-label="Bludiště 15 krát 15 polí. Ovládej šipkami nebo WASD."></div><div class="legend"><span><i class="dot" style="background:var(--cyan)"></i>Hráč</span><span><i class="dot" style="background:var(--lime)"></i>Cíl</span><span><i class="dot" style="background:#c6a5ff"></i>Úkol</span><span><i class="dot" style="background:#344760"></i>Zeď</span></div></div><p class="foot">15 × 15 polí · Každé bludiště má cestu do cíle</p></section>
+<aside class="side"><div class="stats"><div class="stat"><div class="label">ČAS</div><div class="value" id="time">00:00.0</div></div><div class="stat"><div class="label">POČET KROKŮ</div><div class="value"><span id="steps">0</span> <small>kroků</small></div></div></div><p class="status" id="status" role="status">Připraven? Udělej první krok.</p><div class="actions"><button class="btn primary" id="new">↻ Nové bludiště</button><button class="btn" id="restart">⟲ Restart hry</button></div><div class="learning"><label for="difficulty">Co chceš procvičovat?</label><select id="difficulty"><option value="1">1. třída · sčítání a odčítání do 20</option><option value="2">2. třída · sčítání a odčítání do 100</option><option value="3">3. třída · násobilka 1–10</option></select><p class="progress" id="progress">Vyřešené úkoly: 0 / 5</p><p class="learning-note">Změna úrovně spustí nové bludiště. Během řešení úkolu čas stojí.</p></div><div class="help"><h2>Jak se hraje</h2><div class="keys" aria-label="Šipky nebo WASD"><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd><span class="or">/</span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></div><p>Šipkami nebo WASD procházej chodbami. Na fialových otaznících vyřeš příklad. Chyba nevadí: dostaneš nápovědu a můžeš to zkusit znovu. Restart zachová bludiště i příklady.</p><div class="pad" aria-label="Dotykové ovládání"><button class="btn up" data-dx="0" data-dy="-1" aria-label="Nahoru">↑</button><button class="btn left" data-dx="-1" data-dy="0" aria-label="Vlevo">←</button><button class="btn" data-dx="0" data-dy="1" aria-label="Dolů">↓</button><button class="btn" data-dx="1" data-dy="0" aria-label="Vpravo">→</button></div></div></aside>
+</main>
+<div class="modal" id="win" hidden role="dialog" aria-modal="true" aria-labelledby="win-title"><div class="victory"><div class="win-icon" aria-hidden="true">⚑</div><div class="eyebrow">MISE SPLNĚNA</div><h2 id="win-title">Jsi venku!</h2><p>Našel jsi cestu z bludiště.<br>Vyřešil jsi všech pět příkladů!</p><div class="results"><div><strong id="win-time"></strong><span>Čas pohybu</span></div><div><strong id="win-steps"></strong><span>Počet kroků</span></div></div><p id="win-learning"></p><div class="actions"><button class="btn primary" id="win-new">Nové bludiště</button><button class="btn" id="win-restart">Zkusit stejné znovu</button></div></div></div>
+<div class="modal" id="question" hidden role="dialog" aria-modal="true" aria-labelledby="question-title"><div class="victory"><div class="eyebrow" id="question-number">ÚKOL</div><h2 id="question-title">Otevři si cestu</h2><p>Vyber správný výsledek. Časomíra teď stojí.</p><div class="question-expression" id="expression"></div><div class="choices" id="choices"></div><div class="feedback" id="feedback" role="status" aria-live="polite"></div><button class="btn primary" id="continue" hidden>Pokračovat v bludišti →</button></div></div>
+<script>
+'use strict';
+// Grid: 1 = wall, 0 = corridor. Odd coordinates are room centers.
+const SIZE = 15;
+const START = {x:1,y:1}, GOAL = {x:13,y:13};
+const board = document.getElementById('board');
+const timeEl = document.getElementById('time');
+const stepsEl = document.getElementById('steps');
+const statusEl = document.getElementById('status');
+const win = document.getElementById('win');
+let maze, player, avatar, steps = 0, startedAt = null, elapsed = 0, won = false, frame = null;
+const question = document.getElementById('question');
+const choicesEl = document.getElementById('choices');
+const feedbackEl = document.getElementById('feedback');
+const continueBtn = document.getElementById('continue');
+const difficulty = document.getElementById('difficulty');
+let checkpoints = [], activeTask = null, pausedAt = null, mistakes = 0;
+const TASK_COUNT = 5;
+const randomInt = (min,max) => min+Math.floor(Math.random()*(max-min+1));
+
+// BFS returns a valid path; all learning gates lie on the route to the exit.
+function findPath(grid) {
+  const queue = [{...START,path:[{...START}]}], seen = new Set([START.x+','+START.y]);
+  for (let i=0;i<queue.length;i++) {
+    const current = queue[i];
+    if (current.x===GOAL.x && current.y===GOAL.y) return current.path;
+    for (const [dx,dy] of [[0,-1],[1,0],[0,1],[-1,0]]) {
+      const x=current.x+dx, y=current.y+dy, key=x+','+y;
+      if (x<0 || y<0 || x>=SIZE || y>=SIZE || grid[y][x] || seen.has(key)) continue;
+      seen.add(key); queue.push({x,y,path:[...current.path,{x,y}]});
+    }
+  }
+  throw new Error('Bludiště nemá průchozí cestu.');
+}
+function createTask(level) {
+  let a,b,answer,expression,hint;
+  if (level==='3') {
+    a=randomInt(1,10); b=randomInt(1,10); answer=a*b;
+    expression=`${a} × ${b} = ?`;
+    hint=`Násobení ${a} × ${b} znamená ${a} skupin po ${b}. Přičítej ${b} postupně ${a}krát.`;
+  } else {
+    const max=level==='2'?100:20;
+    if (Math.random()<.5) {
+      a=randomInt(1,max-1); b=randomInt(1,max-a); answer=a+b;
+      expression=`${a} + ${b} = ?`;
+      hint=`Začni na čísle ${a} a přičti ${b}. Můžeš si ${b} rozdělit na menší části.`;
+    } else {
+      a=randomInt(2,max); b=randomInt(1,a); answer=a-b;
+      expression=`${a} − ${b} = ?`;
+      hint=`Začni na čísle ${a} a odečti ${b}. Představ si, že z ${a} předmětů ${b} odebereš.`;
+    }
+  }
+  const options = new Set([answer]);
+  while (options.size<3) { const option=answer+randomInt(-5,5); if(option>=0) options.add(option); }
+  const shuffled=[...options];
+  for(let i=shuffled.length-1;i>0;i--){const j=randomInt(0,i);[shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];}
+  return {expression,answer,hint,options:shuffled,solved:false};
+}
+function placeTasks() {
+  const path=findPath(maze);
+  checkpoints=Array.from({length:TASK_COUNT},(_,i)=>({...path[Math.floor((i+1)*(path.length-1)/(TASK_COUNT+1))],...createTask(difficulty.value),number:i+1}));
+}
+function updateProgress() {
+  document.getElementById('progress').textContent=`Vyřešené úkoly: ${checkpoints.filter(t=>t.solved).length} / ${TASK_COUNT}`;
+}
+function openTask(task) {
+  activeTask=task;
+  pausedAt=performance.now();
+  elapsed=pausedAt-startedAt;
+  cancelAnimationFrame(frame);
+  timeEl.textContent=formatTime(elapsed);
+  document.getElementById('question-number').textContent=`ÚKOL ${task.number} Z ${TASK_COUNT}`;
+  document.getElementById('expression').textContent=task.expression;
+  feedbackEl.textContent='Přemýšlej v klidu. Na rychlosti odpovědi nezáleží.';
+  feedbackEl.className='feedback';
+  continueBtn.hidden=true;
+  choicesEl.replaceChildren();
+  task.options.forEach(value=>{
+    const button=document.createElement('button');
+    button.className='btn'; button.textContent=value;
+    button.addEventListener('click',()=>answerTask(value,button));
+    choicesEl.append(button);
+  });
+  question.hidden=false;
+  choicesEl.children[0].focus();
+}
+function answerTask(value,button) {
+  if (!activeTask || activeTask.solved) return;
+  if (value!==activeTask.answer) {
+    mistakes++;
+    button.classList.add('incorrect');
+    feedbackEl.textContent='Zkus to znovu. '+activeTask.hint;
+    return;
+  }
+  activeTask.solved=true;
+  button.classList.add('correct');
+  [...choicesEl.children].forEach(b=>b.disabled=true);
+  feedbackEl.className='feedback good';
+  feedbackEl.textContent='Správně! '+activeTask.expression.replace('?',String(value))+'. Cesta je otevřená.';
+  board.children[activeTask.y*SIZE+activeTask.x].classList.add('solved');
+  updateProgress(); continueBtn.hidden=false; continueBtn.focus();
+}
+function continueGame() {
+  if (!activeTask?.solved) return;
+  startedAt+=performance.now()-pausedAt; // Exclude learning time from movement time.
+  pausedAt=null; activeTask=null; question.hidden=true;
+  frame=requestAnimationFrame(tick);
+  board.focus({preventScroll:true});
+}
+continueBtn.addEventListener('click',continueGame);
+difficulty.addEventListener('change',()=>reset(true));
+
+// Randomized depth-first search connects every room, guaranteeing a route.
+function generateMaze() {
+  const grid = Array.from({length:SIZE}, () => Array(SIZE).fill(1));
+  const stack = [{...START}];
+  grid[START.y][START.x] = 0;
+  while (stack.length) {
+    const current = stack[stack.length-1];
+    const neighbors = [[0,-2],[2,0],[0,2],[-2,0]]
+      .map(([dx,dy]) => ({x:current.x+dx,y:current.y+dy}))
+      .filter(p => p.x>0 && p.y>0 && p.x<SIZE-1 && p.y<SIZE-1 && grid[p.y][p.x]===1);
+    if (!neighbors.length) { stack.pop(); continue; }
+    const next = neighbors[Math.floor(Math.random()*neighbors.length)];
+    grid[(current.y+next.y)/2][(current.x+next.x)/2] = 0;
+    grid[next.y][next.x] = 0;
+    stack.push(next);
+  }
+  return grid;
+}
+
+function renderMaze() {
+  const cells = document.createDocumentFragment();
+  for (let y=0;y<SIZE;y++) for (let x=0;x<SIZE;x++) {
+    const cell = document.createElement('div');
+    cell.className = 'cell'+(maze[y][x] ? ' wall' : '')+
+      (x===START.x && y===START.y ? ' start' : '')+
+      (x===GOAL.x && y===GOAL.y ? ' goal' : '')+
+      (checkpoints.some(t=>t.x===x && t.y===y) ? ' checkpoint' : '');
+    cell.setAttribute('aria-hidden','true');
+    cells.append(cell);
+  }
+  avatar = document.createElement('div');
+  avatar.className = 'player';
+  avatar.innerHTML = '<div class="character"></div>';
+  avatar.setAttribute('aria-hidden','true');
+  cells.append(avatar);
+  board.replaceChildren(cells);
+}
+
+function formatTime(ms) {
+  const tenths = Math.floor(ms/100);
+  return String(Math.floor(tenths/600)).padStart(2,'0')+':'+
+    String(Math.floor(tenths/10)%60).padStart(2,'0')+'.'+tenths%10;
+}
+function tick(now) {
+  elapsed = now-startedAt;
+  timeEl.textContent = formatTime(elapsed);
+  if (!won) frame = requestAnimationFrame(tick);
+}
+function renderPlayer() {
+  // Anchor directly to the rendered cell, never accumulate percentage offsets.
+  const cell = board.children[player.y*SIZE+player.x];
+  avatar.style.left = cell.offsetLeft+'px';
+  avatar.style.top = cell.offsetTop+'px';
+  avatar.style.width = cell.offsetWidth+'px';
+  avatar.style.height = cell.offsetHeight+'px';
+  board.setAttribute('aria-label',`Bludiště 15 krát 15 polí. Hráč: řádek ${player.y+1}, sloupec ${player.x+1}. Cíl: řádek 14, sloupec 14. Ovládej šipkami nebo WASD.`);
+}
+
+// Only a successful move counts as a step and starts the timer.
+function move(dx,dy) {
+  if (won || activeTask) return;
+  const x = player.x+dx, y = player.y+dy;
+  if (x<0 || y<0 || x>=SIZE || y>=SIZE || maze[y][x]===1) {
+    board.classList.remove('bump');
+    void board.offsetWidth;
+    board.classList.add('bump');
+    return;
+  }
+  if (startedAt===null) {
+    startedAt = performance.now();
+    frame = requestAnimationFrame(tick);
+    statusEl.textContent = 'Na cestě. Najdi zelenou vlajku.';
+  }
+  player = {x,y};
+  stepsEl.textContent = ++steps;
+  renderPlayer();
+  avatar.classList.remove('stepping'); void avatar.offsetWidth; avatar.classList.add('stepping');
+  const task=checkpoints.find(t=>t.x===x && t.y===y && !t.solved);
+  if(task) openTask(task);
+  if (x===GOAL.x && y===GOAL.y) finish();
+}
+function finish() {
+  if (checkpoints.some(t=>!t.solved)) { statusEl.textContent='Nejprve vyřeš všech pět úkolů.'; return; }
+  won = true;
+  elapsed = performance.now()-startedAt;
+  cancelAnimationFrame(frame);
+  timeEl.textContent = formatTime(elapsed);
+  document.getElementById('win-time').textContent = formatTime(elapsed);
+  document.getElementById('win-steps').textContent = steps;
+  statusEl.textContent = 'Cíl dosažen. Skvělá práce!';
+  document.getElementById('win-learning').textContent=mistakes===0?'Všech pět příkladů jsi zvládl na první pokus.':`Vyřešeno 5 z 5 úkolů. Opravené odpovědi: ${mistakes}. Každá oprava je krok k učení.`;
+  win.hidden = false;
+  document.getElementById('win-new').focus();
+}
+function reset(newMaze=false, focus=true) {
+  cancelAnimationFrame(frame);
+  frame = null; startedAt = null; elapsed = 0; steps = 0; won = false;
+  player = {...START};
+  activeTask=null; pausedAt=null; mistakes=0; question.hidden=true;
+  checkpoints.forEach(t=>t.solved=false);
+  win.hidden = true;
+  board.classList.remove('bump');
+  if (newMaze || !maze) { maze = generateMaze(); placeTasks(); }
+  renderMaze(); updateProgress();
+  renderPlayer();
+  timeEl.textContent = '00:00.0'; stepsEl.textContent = '0';
+  statusEl.textContent = 'Připraven? Udělej první krok.';
+  if (focus) board.focus({preventScroll:true});
+}
+const bindings = {ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],w:[0,-1],s:[0,1],a:[-1,0],d:[1,0]};
+document.addEventListener('keydown',event => {
+  if (event.ctrlKey || event.metaKey || event.altKey) return;
+  const direction = bindings[event.key] || bindings[event.key.toLowerCase()];
+  if (direction) { event.preventDefault(); move(...direction); }
+  // Keep keyboard focus inside the active dialog.
+  const dialog=!question.hidden?question:!win.hidden?win:null;
+  if (dialog && event.key==='Tab') {
+    const buttons=[...dialog.querySelectorAll('button')].filter(b=>!b.hidden && !b.disabled);
+    const first=buttons[0], last=buttons[buttons.length-1];
+    if(event.shiftKey && document.activeElement===first){event.preventDefault();last.focus();}
+    else if(!event.shiftKey && document.activeElement===last){event.preventDefault();first.focus();}
+  }
+});
+document.getElementById('new').addEventListener('click',()=>reset(true));
+document.getElementById('restart').addEventListener('click',()=>reset());
+document.getElementById('win-new').addEventListener('click',()=>reset(true));
+document.getElementById('win-restart').addEventListener('click',()=>reset());
+document.querySelectorAll('[data-dx]').forEach(button => button.addEventListener('click',()=>move(Number(button.dataset.dx),Number(button.dataset.dy))));
+// Re-anchor when responsive layout or zoom changes the actual cell dimensions.
+if (typeof ResizeObserver !== 'undefined') new ResizeObserver(()=>{if(player && avatar) renderPlayer();}).observe(board);
+window.addEventListener('resize',()=>renderPlayer());
+reset(true,false);
+</script>
+</body>
+</html>
